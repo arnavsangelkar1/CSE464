@@ -13,14 +13,14 @@ public class Main {
                 Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
 
                 // Create vertex instances
-                URI google = URI.create("https://www.google.com");
-                URI wikipedia = URI.create("https://www.wikipedia.org");
-                URI jgrapht = URI.create("http://www.jgrapht.org");
+                String google = "https://www.google.com";
+                String wikipedia = "https://www.wikipedia.org";
+                String jgrapht =  "http://www.jgrapht.org";
 
                 // Add the initial vertices
-                addVertex(g, google);
-                addVertex(g, wikipedia);
-                addVertex(g, jgrapht);
+                addNode(g, google);
+                addNode(g, wikipedia);
+                addNode(g, jgrapht);
 
                 // Add edges to create the initial linking structure
                 addEdge(g, jgrapht, wikipedia);
@@ -29,41 +29,30 @@ public class Main {
                 addEdge(g, wikipedia, google);
 
                 // Export the graph to a DOT file
-                exportGraphToDotFile(g, "test.dot");
+                exportGraphToDotFile(g, "gh.dot");
         }
 
         // Method to add a new node (vertex) to the graph
-        public static void addVertex(Graph<URI, DefaultEdge> graph, URI vertex) {
-                if (!graph.containsVertex(vertex)) {
-                        graph.addVertex(vertex);
-                }
-        }
 
         // Method to add a new node with a label to the graph
         public static void addNode(Graph<URI, DefaultEdge> graph, String label) {
                 URI node = URI.create(label);
-                addVertex(graph, node);
+                if(!graph.containsVertex(node)){
+                        graph.addVertex(node);
+                }
         }
-
         // Method to add a list of nodes to the graph
         public static void addNodes(Graph<URI, DefaultEdge> graph, String[] labels) {
                 for (String label : labels) {
                         addNode(graph, label);
                 }
         }
-
         // Method to add a new edge to the graph
-        public static void addEdge(Graph<URI, DefaultEdge> graph, URI source, URI target) {
-                if (!graph.containsEdge(source, target)) {
-                        graph.addEdge(source, target);
-                }
-        }
-
         // Method to add a new edge with labels to the graph
         public static void addEdge(Graph<URI, DefaultEdge> graph, String srcLabel, String dstLabel) {
                 URI src = URI.create(srcLabel);
                 URI dst = URI.create(dstLabel);
-                addEdge(graph, src, dst);
+                graph.addEdge(src, dst);
         }
 
         // Method to export the graph to a DOT file
