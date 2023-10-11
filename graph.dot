@@ -1,0 +1,6 @@
+digraph G {
+  "http://www.jgrapht.org" -> "https://www.wikipedia.org";
+  "https://www.google.com" -> "http://www.jgrapht.org";
+  "https://www.google.com" -> "https://www.wikipedia.org";
+  "https://www.wikipedia.org" -> "https://www.google.com";
+}
