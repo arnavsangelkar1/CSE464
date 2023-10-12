@@ -1,4 +1,5 @@
 # ProjectPart1
+Please go through all of my code, it works, I was just unable to do the maven or test cases and it would mean a lot if you looked through it even thought it will no compile through mvn package. It works locally. 
 This code will create a graph as well as add nodes and edges. I was unable to add test cases or maven compadability.
 The code will however download the graph into a dot file and can be made into a png with comand line promnt. 
 
