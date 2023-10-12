@@ -6,3 +6,8 @@ The code will however download the graph into a dot file and can be made into a 
 What the end project will look like as a png after the command line prompt (dot -Tpng input.dot -o output.png) 
 ![gh](https://github.com/arnavsangelkar1/ProjectPart1/assets/147441660/1d1d1d84-0f08-486c-b259-4791723fa50e)
 I added the pom.xml file that I was working on, but it does not work to compile. I wrote the whole code forgetting to use maven, so when I tried to switch to it and use that to run it it would not work. This is why I have the above output from my code, but I do not have the maven to support or run it. 
+
+My Commits: 
+![42FC6AF5-D7C3-4972-B76A-5843CDE1AE6F](https://github.com/arnavsangelkar1/CSE464/assets/147441660/7b51a97d-6b12-406d-9f70-47f09c852157)
+
+Output: It will say that "This node Already Exists *Insert Node*" When there are duplicates as well as with edges. It will output a dot file into the file and then you can use command line to make it a png. 
