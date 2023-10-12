@@ -21,6 +21,8 @@ public class Main {
                 addNode(g, google);
                 addNode(g, wikipedia);
                 addNode(g, jgrapht);
+                //cause the extra vertex error 
+                addNode(g, jgrapht);
 
                 // Add edges to create the initial linking structure
                 addEdge(g, jgrapht, wikipedia);
@@ -39,6 +41,9 @@ public class Main {
                 URI node = URI.create(label);
                 if(!graph.containsVertex(node)){
                         graph.addVertex(node);
+                }
+                else{
+                        System.out.println("Node Already Exists " + node);
                 }
         }
         // Method to add a list of nodes to the graph
