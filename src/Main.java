@@ -75,6 +75,17 @@ public class Main {
         URI dst = URI.create(dstLabel);
         graph.addEdge(src, dst);
     }
+    // Method to remove an edge from the graph
+    public static void removeEdge(Graph<URI, DefaultEdge> graph, String srcLabel, String dstLabel) {
+        URI src = URI.create(srcLabel);
+        URI dst = URI.create(dstLabel);
+        if (graph.containsVertex(src) && graph.containsVertex(dst) && graph.containsEdge(src, dst)) {
+            graph.removeEdge(src, dst);
+            System.out.println("Edge Removed: " + src + " -> " + dst);
+        } else {
+            System.out.println("Edge not found: " + src + " -> " + dst);
+        }
+    }
 
     // Method to export the graph to a DOT file
     public static void exportGraphToDotFile(Graph<URI, DefaultEdge> graph, String fileName) {
