@@ -7,7 +7,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.HashSet;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.List;
+import java.util.ArrayList;
+import java.net.URI;
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashSet;
 public class Main {
     public static void main(String[] args) {
         Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
@@ -31,6 +49,18 @@ public class Main {
 
         // Export the graph to a DOT file
         exportGraphToDotFile(g, "test.dot");
+
+
+        // Use the graphSearch API to find a path from src to dst
+        URI src = URI.create("http://www.jgrapht.org");
+        URI dst = URI.create("https://www.google.com");
+        Path path = graphSearch(g, src, dst);
+
+        if (path != null) {
+            System.out.println("Path found: " + path.toString());
+        } else {
+            System.out.println("Path not found.");
+        }
     }
 
     // Method to add a new node (vertex) to the graph
@@ -104,4 +134,97 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+//    public static Path graphSearch(Graph<URI, DefaultEdge> graph, URI src, URI dst) {
+//        Queue<Path> queue = new LinkedList<>();
+//        Set<URI> visited = new HashSet<>();
+//
+//        queue.add(new Path(src));
+//        visited.add(src);
+//
+//        while (!queue.isEmpty()) {
+//            Path currentPath = queue.poll();
+//            URI currentNode = currentPath.getLastNode();
+//
+//            if (currentNode.equals(dst)) {
+//                return currentPath; // Path found
+//            }
+//
+//            for (DefaultEdge edge : graph.outgoingEdgesOf(currentNode)) {
+//                URI neighbor = graph.getEdgeTarget(edge);
+//                if (!visited.contains(neighbor)) {
+//                    Path newPath = new Path(currentPath);
+//                    newPath.addNode(neighbor);
+//                    queue.add(newPath);
+//                    visited.add(neighbor);
+//                }
+//            }
+//        }
+//
+//        return null; // No path found
+//    }
+//public static Path graphSearch(Graph<URI, DefaultEdge> graph, URI src, URI dst) {
+//    java.util.Stack<Path> stack = new java.util.Stack<>(); // Use the full package name
+//    Set<URI> visited = new HashSet<>();
+//
+//    stack.push(new Path(src));
+//    visited.add(src);
+//
+//    while (!stack.isEmpty()) {
+//        Path currentPath = stack.pop();
+//        URI currentNode = currentPath.getLastNode();
+//
+//        if (currentNode.equals(dst)) {
+//            return currentPath; // Path found
+//        }
+//
+//        for (DefaultEdge edge : graph.outgoingEdgesOf(currentNode)) {
+//            URI neighbor = graph.getEdgeTarget(edge);
+//            if (!visited.contains(neighbor)) {
+//                Path newPath = new Path(currentPath);
+//                newPath.addNode(neighbor);
+//                stack.push(newPath);
+//                visited.add(neighbor);
+//            }
+//        }
+//    }
+//
+//    return null; // No path found
+//}
+
+    // Define a Path class to represent a path
+    static class Path {
+        private List<URI> nodes;
+
+        public Path(URI initialNode) {
+            nodes = new ArrayList<>();
+            nodes.add(initialNode);
+        }
+
+        public Path(Path existingPath) {
+            nodes = new ArrayList<>(existingPath.nodes);
+        }
+
+        public void addNode(URI node) {
+            nodes.add(node);
+        }
+
+        public URI getLastNode() {
+            return nodes.get(nodes.size() - 1);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < nodes.size(); i++) {
+                sb.append(nodes.get(i));
+                if (i < nodes.size() - 1) {
+                    sb.append(" -> ");
+                }
+            }
+            return sb.toString();
+        }
+    }
 }
+
+
