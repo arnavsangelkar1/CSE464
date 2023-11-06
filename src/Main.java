@@ -49,6 +49,7 @@ public class Main {
 
         // Export the graph to a DOT file
         exportGraphToDotFile(g, "test.dot");
+        removeEdge(g, "https://www.google.com", "http://www.jgrapht.org");
 
 
         // Use the graphSearch API to find a path from src to dst
