@@ -18,7 +18,7 @@ Here are expected outputs for removing nodes, edges as well as the updated path.
 ![Image 11-5-23 at 7 06 PM](https://github.com/arnavsangelkar1/CSE464/assets/147441660/25d1dddb-6ff9-4738-a4e2-472f367ce0e2)
 ![Image 11-5-23 at 7 09 PM](https://github.com/arnavsangelkar1/CSE464/assets/147441660/5e6fee63-7d1d-46d5-b8d6-2a11e7a8f11b)
 
-Here are my commits for this section: 
+Here are my commits for this section the merge branch is also in there: 
 
 ![Image 11-5-23 at 7 13 PM](https://github.com/arnavsangelkar1/CSE464/assets/147441660/4c51f111-9fa0-4dce-a577-9bd1594481ec)
 
