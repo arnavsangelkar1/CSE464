@@ -25,3 +25,6 @@ Here are my commits for this section:
 Here is showing that my link is in the google sheet:
 ![Image 11-5-23 at 7 14 PM](https://github.com/arnavsangelkar1/CSE464/assets/147441660/fec17d37-241a-4d48-b4ff-4f17ea667384)
 
+Here is the continous support: 
+![Image 11-5-23 at 7 11 PM](https://github.com/arnavsangelkar1/CSE464/assets/147441660/5b2c4193-613c-474c-b847-007ff4fd75f2)
+
