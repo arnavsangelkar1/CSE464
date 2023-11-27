@@ -1,5 +1,5 @@
 # ProjectPart1
-This code will create a graph as well as add nodes and edges. 
+This code will create a graph as well as add odes and edges. 
 The code will however download the graph into a dot file and can be made into a png with comand line promnt. 
 All of the test cases are in the main file. 
 
