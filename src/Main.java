@@ -190,16 +190,18 @@ public class Main {
             e.printStackTrace();
         }
     }
-
+//This new refactored branch of path makes switch statments instead of if statments. This helps with readability as well as error checking with the program.
     public static Path graphSearch(Graph<URI, DefaultEdge> graph, URI src, URI dst, Algorithm algo) {
-        if (algo == Algorithm.BFS) {
-            return bfs(graph, src, dst);
-        } else if (algo == Algorithm.DFS) {
-            return dfs(graph, src, dst);
-        } else {
-            throw new IllegalArgumentException("Invalid algorithm choice");
+        switch (algo) {
+            case BFS:
+                return bfs(graph, src, dst);
+            case DFS:
+                return dfs(graph, src, dst);
+            default:
+                throw new IllegalArgumentException("Invalid algorithm choice");
         }
     }
+
 
     public enum Algorithm {
         BFS, DFS
