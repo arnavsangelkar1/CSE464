@@ -35,6 +35,7 @@ public class Main {
         String wikipedia = "https://www.wikipedia.org";
         String jgrapht =  "http://www.jgrapht.org";
 
+
         // Add the initial vertices
         addNode(g, google);
         addNode(g, wikipedia);
@@ -46,8 +47,8 @@ public class Main {
         addEdge(g, google, jgrapht);
         addEdge(g, google, wikipedia);
         addEdge(g, wikipedia, google);
-
         // Export the graph to a DOT file
+
         exportGraphToDotFile(g, "test.dot");
         removeEdge(g, "https://www.google.com", "http://www.jgrapht.org");
 
@@ -68,26 +69,48 @@ public class Main {
     // Method to add a new node (vertex) to the graph
 
     // Method to add a new node with a label to the graph
+//    public static void addNode(Graph<URI, DefaultEdge> graph, String label) {
+//        URI node = URI.create(label);
+//        if(!graph.containsVertex(node)){
+//            graph.addVertex(node);
+//        }
+//        else{
+//            System.out.println("Node Already Exists " + node);
+//        }
+//
+//    }
+
+   //Refactored method, this way it takes us less space in memory and we do not need to check things twice. It also tells you the node was added
     public static void addNode(Graph<URI, DefaultEdge> graph, String label) {
         URI node = URI.create(label);
-        if(!graph.containsVertex(node)){
-            graph.addVertex(node);
+        if (graph.addVertex(node)) {
+            System.out.println("Node added: " + node);
+        } else {
+            System.out.println("Node already exists: " + node);
         }
-        else{
-            System.out.println("Node Already Exists " + node);
-        }
-
     }
+
     // Method to remove a nodes to the graph
+//    public static void removeNode(Graph<URI, DefaultEdge> graph, String label) {
+//        URI node = URI.create(label);
+//        if (graph.containsVertex(node)) {
+//            graph.removeVertex(node);
+//            System.out.println("Node Removed: " + node);
+//        } else {
+//            System.out.println("Node not found: " + node);
+//        }
+//    }
+
+    //This refactored method also removes the unnecessary "graph.containsVertex(node)" call, thus making it easier to read
     public static void removeNode(Graph<URI, DefaultEdge> graph, String label) {
         URI node = URI.create(label);
-        if (graph.containsVertex(node)) {
-            graph.removeVertex(node);
+        if (graph.removeVertex(node)) {
             System.out.println("Node Removed: " + node);
         } else {
             System.out.println("Node not found: " + node);
         }
     }
+
     // Method to add a list of nodes to the graph
     public static void addNodes(Graph<URI, DefaultEdge> graph, String[] labels) {
         for (String label : labels) {
