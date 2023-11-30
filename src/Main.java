@@ -57,10 +57,15 @@ public class Main {
         URI src = URI.create("http://www.jgrapht.org");
         URI dst = URI.create("https://www.google.com");
         Path path = graphSearch(g, src, dst, Algorithm.BFS); // For BFS
-        //Path path = graphSearch(g, src, dst, Algorithm.DFS); // For DFS
+        Path path2 = graphSearch(g, src, dst, Algorithm.DFS); // For DFS
 
         if (path != null) {
             System.out.println("Path found: " + path.toString());
+        } else {
+            System.out.println("Path not found.");
+        }
+        if (path2 != null) {
+            System.out.println("Path found: " + path2.toString());
         } else {
             System.out.println("Path not found.");
         }
