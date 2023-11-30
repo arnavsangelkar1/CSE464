@@ -125,11 +125,22 @@ public class Main {
     }
     // Method to add a new edge to the graph
     // Method to add a new edge with labels to the graph
+    //This refactoed branch checks to see if the node already exists in the graph. If it does not it will add it first and then make the edge
     public static void addEdge(Graph<URI, DefaultEdge> graph, String srcLabel, String dstLabel) {
         URI src = URI.create(srcLabel);
         URI dst = URI.create(dstLabel);
+
+        if (!graph.containsVertex(src)) {
+            graph.addVertex(src);
+        }
+
+        if (!graph.containsVertex(dst)) {
+            graph.addVertex(dst);
+        }
+
         graph.addEdge(src, dst);
     }
+
     // Method to remove an edge from the graph
     public static void removeEdge(Graph<URI, DefaultEdge> graph, String srcLabel, String dstLabel) {
         URI src = URI.create(srcLabel);
