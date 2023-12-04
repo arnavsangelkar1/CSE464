@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.jgrapht.graph.SimpleGraph;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.LinkedList;
@@ -25,9 +30,21 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.jgrapht.Graphs;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 public class Main {
+
+//    private static String readDotFile(String fileName) throws IOException {
+//        Path path = java.nio.file.Paths.get(fileName);  // Use the renamed class
+//        return Files.readString(path);
+//    }
     public static void main(String[] args) {
+
         Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
 
         // Create vertex instances
@@ -55,22 +72,189 @@ public class Main {
 
         // Use the graphSearch API to find a path from src to dst
         URI src = URI.create("http://www.jgrapht.org");
-        URI dst = URI.create("https://www.google.com");
+        URI dst = URI.create("A");
         Path path = graphSearch(g, src, dst, Algorithm.BFS); // For BFS
         Path path2 = graphSearch(g, src, dst, Algorithm.DFS); // For DFS
 
         if (path != null) {
             System.out.println("Path found: " + path.toString());
         } else {
-            System.out.println("Path not found.");
+            System.out.println("Path not found: " + src + " -> " + dst);
         }
         if (path2 != null) {
             System.out.println("Path found: " + path2.toString());
         } else {
-            System.out.println("Path not found.");
+            System.out.println("Path not found: " + src + " -> " + dst);
         }
+
+        Graph<URI, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+
+        // Add nodes and edges to the graph using the provided methods
+        addNode(graph, "A");
+        addNode(graph, "B");
+        addNode(graph, "C");
+        addNode(graph, "D");
+        addNode(graph, "E");
+        addNode(graph, "F");
+
+        addEdge(graph, "A", "B");
+        addEdge(graph, "B", "C");
+        addEdge(graph, "A", "D");
+        addEdge(graph, "D", "E");
+        addEdge(graph, "E", "F");
+        addEdge(graph, "F", "C");
+
+        // Instantiate RandomWalkGraphPathFinder with the RandomWalkStrategyImpl
+        RandomWalkGraphPathFinder randomWalkPathFinder = new RandomWalkGraphPathFinder(new RandomWalkStrategyImpl(), System.currentTimeMillis());
+
+        // Specify source and destination vertices
+        URI sourceVertex = URI.create("A");
+        URI destinationVertex = URI.create("C");
+
+        // Run the search multiple times with different seeds
+        
+        //Refactored so that it uses a for loop and a seed to take up less memory and be easier to change in the fututre 
+        System.out.println("\nRandom Walk for Strat\n");
+        for (int i = 1; i <= 1; i++) {
+            long seed = System.currentTimeMillis(); // Use a different seed for each trial
+            randomWalkPathFinder = new RandomWalkGraphPathFinder(new RandomWalkStrategyImpl(), seed);
+
+            //System.out.println("Running trial " + i + " with seed " + seed + ":");
+            randomWalkPathFinder.executeSearch(graph, sourceVertex, destinationVertex, 1);
+            System.out.println();
+        }
+//        exportGraphToDotFile(graph, "test2.dot");
+//
+//        try {
+//            // Read DOT content from the file
+//            String dotContent = readDotFile("test.dot");
+//
+//            int[][] graph3 = DotParser.parseDOT(dotContent);
+//            int startNode = 0;
+//
+//            BFSAlgo bfsAlgorithm = new ConcreteBFS();
+//            bfsAlgorithm.bfs(graph3, startNode);
+//
+//        } catch (IOException e) {
+//            System.err.println("Error reading the DOT file: " + e.getMessage());
+//        }
+
+
+        // Create a JGraphT graph with DefaultDirectedGraph
+        DefaultDirectedGraph<URI, DefaultEdge> jgraphtGraph = new DefaultDirectedGraph<>(DefaultEdge.class);
+
+        // Specify the path to your DOT file
+        String dotFilePath = "test2.dot";
+
+//        DefaultDirectedGraph<URI, DefaultEdge> jgraphtGraph = new DefaultDirectedGraph<>(DefaultEdge.class);
+//        String dotFilePath = "path/to/your/file.dot";
+
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(dotFilePath));
+            for (String line : lines) {
+                String[] tokens = line.trim().split("\\s+"); // Split on whitespace
+
+                if (tokens.length > 1 && tokens[1].equals("->")) { // Assumes an edge line
+                    try {
+                        URI source = createUriFromString(tokens[0]);
+                        URI target = createUriFromString(tokens[2]);
+                        jgraphtGraph.addVertex(source);
+                        jgraphtGraph.addVertex(target);
+                        jgraphtGraph.addEdge(source, target);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("JGraphT Graph: " + jgraphtGraph);
+
+        //Path path3 = graphSearch(jgraphtGraph, sourceVertex, destinationVertex, Algorithm.BFS); // For BFS
+
+//        if (path3 != null) {
+//            System.out.println("Path found: " + path3.toString());
+//        } else {
+//            System.out.println("Path not found.");
+//        }
+
+//        ConcreteBFS concreteBFS = new ConcreteBFS(jgraphtGraph);
+//        //URI startNode = sourceVertex;
+//        concreteBFS.search(jgraphtGraph, sourceVertex, destinationVertex);
+//
+//        DepthFirstSearchTemplate dfsTemplate = new CustomDFS();
+//        dfsTemplate.search(jgraphtGraph, sourceVertex, destinationVertex);
+//
+//
+        BFSAlgo bfsAlgorithm = new BFSAlgo();
+        DepthFirstSearchTemplate dfsAlgorithm = new DepthFirstSearchTemplate();
+
+        // Use GraphSearch with different algorithms
+        System.out.println("\nBFS for Strat\n");
+        GraphSearch bfsSearch = new GraphSearch(bfsAlgorithm);
+        bfsSearch.performSearch(jgraphtGraph, sourceVertex, destinationVertex);
+
+        System.out.println("\nDFS for Strat");
+        GraphSearch dfsSearch = new GraphSearch(dfsAlgorithm);
+        dfsSearch.performSearch(jgraphtGraph, sourceVertex, destinationVertex);
+
+        //RandomWalkSearch randomWalkSearch = new RandomWalkSearch();
+//        List<Path> resultPaths = randomWalkSearch.search(jgraphtGraph, sourceVertex, destinationVertex);
+//
+//        // Print the result paths
+//        for (Path path : resultPaths) {
+//            System.out.println("visiting " + path);
+//        }
     }
 
+
+    private static URI createUriFromString(String uriString) throws URISyntaxException {
+        // Add a scheme (e.g., "http") if the URI is missing one
+
+        // Replace illegal characters in the scheme
+        uriString = uriString.replaceAll("[^a-zA-Z0-9+.-]+", "");
+
+        return new URI(uriString);
+    }
+//    public class Main {
+//        public static void main(String[] args) {
+//            // Create a graph
+//            Graph<URI, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+//
+//            // Add nodes and edges to the graph using the provided methods
+//            addNode(graph, "A");
+//            addNode(graph, "B");
+//            addNode(graph, "C");
+//            addNode(graph, "D");
+//            addNode(graph, "E");
+//            addNode(graph, "F");
+//
+//            addEdge(graph, "A", "B");
+//            addEdge(graph, "B", "C");
+//            addEdge(graph, "A", "D");
+//            addEdge(graph, "D", "E");
+//            addEdge(graph, "E", "F");
+//            addEdge(graph, "F", "C");
+//
+//            // Instantiate RandomWalkGraphPathFinder with the RandomWalkStrategyImpl
+//            RandomWalkGraphPathFinder randomWalkPathFinder = new RandomWalkGraphPathFinder(new RandomWalkStrategyImpl(), System.currentTimeMillis());
+//
+//            // Specify source and destination vertices
+//            URI sourceVertex = URI.create("A");
+//            URI destinationVertex = URI.create("C");
+//
+//            // Run the search multiple times with different seeds
+//            for (int i = 1; i <= 3; i++) {
+//                long seed = System.currentTimeMillis(); // Use a different seed for each trial
+//                randomWalkPathFinder = new RandomWalkGraphPathFinder(new RandomWalkStrategyImpl(), seed);
+//
+//                System.out.println("Running trial " + i + " with seed " + seed + ":");
+//                randomWalkPathFinder.executeSearch(graph, sourceVertex, destinationVertex, 1);
+//                System.out.println();
+//            }
+//        }
     // Method to add a new node (vertex) to the graph
 
     // Method to add a new node with a label to the graph
@@ -85,7 +269,7 @@ public class Main {
 //
 //    }
 
-   //Refactored method, this way it takes us less space in memory and we do not need to check things twice. It also tells you the node was added
+    //Refactored method, this way it takes us less space in memory and we do not need to check things twice. It also tells you the node was added
     public static void addNode(Graph<URI, DefaultEdge> graph, String label) {
         URI node = URI.create(label);
         if (graph.addVertex(node)) {
@@ -190,7 +374,7 @@ public class Main {
             e.printStackTrace();
         }
     }
-//This new refactored branch of path makes switch statments instead of if statments. This helps with readability as well as error checking with the program.
+    //This new refactored branch of path makes switch statments instead of if statments. This helps with readability as well as error checking with the program.
     public static Path graphSearch(Graph<URI, DefaultEdge> graph, URI src, URI dst, Algorithm algo) {
         switch (algo) {
             case BFS:
@@ -300,4 +484,3 @@ public class Main {
         }
     }
 }
-
